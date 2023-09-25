@@ -14,4 +14,19 @@ class CRICKSIM_API AWicketKeeperCharacter : public ABaseCharacter
 {
 	GENERATED_BODY()
 	
+
+
+
+
+private:
+
+	class ACrickBall* Ball;
+
+	class ACrickBall* BallTemp;
+
+	class ACrickBall* NewBall;
+
+	FTransform NewBallSpawnTrans;
+
+	float LerpVar;
 };
