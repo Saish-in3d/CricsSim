@@ -25,6 +25,12 @@ public:
 
 	//GetMarker
 
+	void ShowMarker(bool In_bool);
+
+	void EnablePhysics(bool In_bool);
+
+	void AddImpusleVector(FVector In_Vec);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -40,4 +46,7 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	class UArrowComponent* ArrowComponent;
+
+	UPROPERTY(VisibleAnywhere)
+	class UWidgetComponent* MarkerWidgetComponent;
 };

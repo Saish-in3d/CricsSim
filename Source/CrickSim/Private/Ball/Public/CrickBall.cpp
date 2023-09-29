@@ -4,6 +4,8 @@
 #include "Ball/Public/CrickBall.h"
 #include "Kismet/GameplayStatics.h"
 //#include "Components/ArrowComponent.h"
+#include "Components/WidgetComponent.h"
+
 
 // Sets default values
 ACrickBall::ACrickBall()
@@ -15,7 +17,7 @@ ACrickBall::ACrickBall()
 	//RootComponent = ArrowComponent; // Attach it to the RootComponent (change as needed)
 
 	BallBody = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MyStaticMeshComponent"));
-	BallBody->SetupAttachment(RootComponent);
+	//BallBody->SetupAttachment(RootComponent);
 	RootComponent = BallBody;
 
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> MeshAsset(TEXT("StaticMesh'/Game/Megascans/3D_Assets/Cricket_Ball_udqlcjbva/S_Cricket_Ball_udqlcjbva_lod3_Var1.S_Cricket_Ball_udqlcjbva_lod3_Var1'"));
@@ -25,6 +27,8 @@ ACrickBall::ACrickBall()
 		//BallBody->SetRelativeScale3D(FVector(0.5f, 0.5f, 0.5f));
 	}
 
+	MarkerWidgetComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("MarkerWidgetComponent"));
+	MarkerWidgetComponent->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned
@@ -37,10 +41,7 @@ void ACrickBall::BeginPlay()
 	if (BallBody)
 	{
 		BallBody->OnComponentHit.AddDynamic(this, &ACrickBall::BallOnHit);
-
-		FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, false);
-		//FName SocketName = NAME_None;
-		//BallBody->AttachToComponent(RootComponent, AttachmentRules);
+		EnablePhysics(false);
 
 	}
 
@@ -73,6 +74,40 @@ void ACrickBall::Tick(float DeltaTime)
 void ACrickBall::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+}
+
+void ACrickBall::ShowMarker(bool In_bool)
+{
+	if (MarkerWidgetComponent && In_bool == true)
+	{
+		MarkerWidgetComponent->bHiddenInGame = false;
+		return;
+	}
+	else if (MarkerWidgetComponent && In_bool == false)
+	{
+		MarkerWidgetComponent->bHiddenInGame = true;
+		return;
+	}
+}
+
+void ACrickBall::EnablePhysics(bool In_bool)
+{
+	if (BallBody )
+	{
+		BallBody->SetSimulatePhysics(In_bool); 
+		
+	}
+	
+}
+
+void ACrickBall::AddImpusleVector(FVector In_Vec)
+{
+	if (BallBody)
+	{
+		BallBody->AddImpulse( In_Vec); 
+
+	}
 
 }
 
