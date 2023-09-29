@@ -42,7 +42,7 @@ void AWicketKeeperCharacter::Defend(FName TagName)
 {
 
 	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
-	if (AnimInstance)
+	if (AnimInstance && DefendWicketMontage)
 	{
 		AnimInstance->Montage_Play(DefendWicketMontage);
 		AnimInstance->Montage_JumpToSection(TagName);
